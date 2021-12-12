@@ -25,5 +25,14 @@ public class Main {
         }
     }
 
-
+    public static boolean verifyInput(String userInput, String typeOfInput) {
+        // type of input will be implemented later
+        String[] typesOfCalculators = {"Algebra", "Basic Math", "Calculus", "Linear Algebra"};
+        for (String type : typesOfCalculators) {
+            if (type.equals(userInput)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
