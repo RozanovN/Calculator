@@ -9,19 +9,22 @@ public class Main {
 
     public static void processInput() {
         Scanner input = new Scanner(System.in);
-        boolean isFinished = false;
         System.out.println("Please, chose the type of calculator from following Algebra, Basic Math, Calculus," +
                 " Linear Algebra :");
         String userInput = input.nextLine();
-        while (!isFinished) {
+        while (true) {
             if (userInput.equals("q") || userInput.equals("quit")) {
-                isFinished = true;
+                System.exit(0);
             }
             if (verifyInput(userInput, "calculator type")) {
-                calulator(userInput);
+                calculator(userInput);
             } else{
-                System.out.println(userInput + "is not valid type of calculator. Please, try again:");
+                System.out.println(userInput + " is not valid type of calculator. Please, try again:");
             }
+            System.out.println("If you no longer need CalcApp, please, enter <q> or <quit>. If you want to change" +
+                    "the type of calculator, please, choose from following Algebra, Basic Math, Calculus, " +
+                    "Linear Algebra:");
+            userInput = input.nextLine();
         }
     }
 
@@ -34,5 +37,9 @@ public class Main {
             }
         }
         return false;
+    }
+
+    public static void calculator(String typeOfCalculator){
+        System.out.println(typeOfCalculator);
     }
 }
