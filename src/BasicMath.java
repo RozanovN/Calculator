@@ -25,10 +25,13 @@ public class BasicMath {
             // Add
             result.add(operationOrder.get(operation.charAt(0)));
         }
+        // sorts the list in the ascending order
+        Collections.sort(result);
+        // returns a sorted list of integers
         return result;
     }
 
-    pablic static void sortInDescendingOrder(ArrayList<?> listToSort) {
+    public static void sortList(ArrayList<String> listToSort, ArrayList<Integer> sortPattern) {
 
     }
 }
