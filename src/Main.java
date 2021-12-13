@@ -1,5 +1,6 @@
 import java.util.Scanner;
-import java.util.HashMap;
+import java.util.Map;
+import static java.util.Map.entry;
 
 public class Main {
 
@@ -12,23 +13,24 @@ public class Main {
         System.out.println("Please, chose the type of calculator from following Algebra, Basic Math, Calculus," +
                 " Linear Algebra :");
         String userInput = input.nextLine();
-        while (true) {
+        boolean isFinished = false;
+        while (!isFinished) {
             if (userInput.equals("q") || userInput.equals("quit")) {
-                System.exit(0);
+                isFinished = true;
             }
-            if (verifyInput(userInput, "calculator type")) {
+            else if (verifyInput(userInput, "calculator type")) {
                 calculator(userInput);
+                System.out.println("If you no longer need CalcApp, please, enter <q> or <quit>. If you want to change" +
+                        "the type of calculator, please, choose from following Algebra, Basic Math, Calculus, " +
+                        "Linear Algebra:");
+                userInput = input.nextLine();
             } else{
                 System.out.println(userInput + " is not valid type of calculator. Please, try again:");
             }
-            System.out.println("If you no longer need CalcApp, please, enter <q> or <quit>. If you want to change" +
-                    "the type of calculator, please, choose from following Algebra, Basic Math, Calculus, " +
-                    "Linear Algebra:");
-            userInput = input.nextLine();
         }
     }
 
-    public static boolean verifyInput(String userInput, String typeOfInput) {
+    public static boolean verifyInput(String userInput, String typeOfVerifcation) {
         // type of input will be implemented later
         String[] typesOfCalculators = {"Algebra", "Basic Math", "Calculus", "Linear Algebra"};
         for (String type : typesOfCalculators) {
@@ -39,7 +41,10 @@ public class Main {
         return false;
     }
 
-    public static void calculator(String typeOfCalculator){
-        System.out.println(typeOfCalculator);
-    }
+//    public static void calculator(String typeOfCalculator){
+//        Map<String, Class<?>> calc = Map.ofEntries(
+//                entry("Algebra", Algebra.class),
+//                entry("c", "d")
+//        );
+//    }
 }
