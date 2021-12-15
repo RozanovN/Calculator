@@ -12,7 +12,14 @@ public class BasicMath {
 
     }
 
-    public static ArrayList<Integer> determineOrderOfOperation(String[] listOfOperations) {
+    public static ArrayList<String> determineOperations(String userInput){
+        String[] arrayOfInput = userInput.split(" ");
+        if (arrayOfInput.length % 2 == 0) {
+
+        }
+    }
+
+    public static ArrayList<String> determineOrderOfOperation(ArrayList<String> listOfOperations) {
         Map<Character, Integer> operationOrder = Map.ofEntries(
                 entry('(', 3),
                 entry('/', 2),
@@ -20,18 +27,19 @@ public class BasicMath {
                 entry('+', 1),
                 entry('-', 1)
         );
-        ArrayList<Integer> result = new ArrayList<Integer>();
-        for (String operation : listOfOperations) {
-            // Add
-            result.add(operationOrder.get(operation.charAt(0)));
+        ArrayList<String> result = new ArrayList<>(listOfOperations);
+        for (int i = 0; i < result.size() - 1; i++) {
+            for (int j = 0; j < result.size(); j++) {
+                if ((operationOrder.get(result.get(i).charAt(0)).compareTo(operationOrder.get(result.get(j).charAt(0))))
+                    < 0){
+                    String temp = result.get(i);
+                    result.set(i, result.get(j));
+                    result.set(j, temp);
+                }
+            }
         }
-        // sorts the list in the ascending order
-        Collections.sort(result);
+        // result.sort(Collections.reverseOrder());
         // returns a sorted list of integers
         return result;
-    }
-
-    public static void sortList(ArrayList<String> listToSort, ArrayList<Integer> sortPattern) {
-
     }
 }
