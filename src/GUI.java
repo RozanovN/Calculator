@@ -69,5 +69,9 @@ public class GUI implements ActionListener {
         }
     }
 
-
+    public void applyActionListener(JButton[] arrayOfButtons) {
+        for (JButton button : arrayOfButtons){
+            button.addActionListener(this);
+        }
+    }
 }
