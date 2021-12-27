@@ -14,10 +14,17 @@ public class BasicMath {
         ArrayList<String> expression = convertToReversePolishNotation(userInput);
         for (int i = 0; i < expression.size(); i++) {
             if (!isOperand(expression.get(i))) {
-                expression.set(i, evaluateExpression(expression.get(i - 2), expression.get(i), expression.get(i - 1)));
-                expression.remove(i - 1);
-                expression.remove(i - 2);
-                i -= 2;
+                try {
+                    expression.set(i, evaluateExpression(expression.get(i - 2), expression.get(i), expression.get(i - 1)));
+                    expression.remove(i - 1);
+                    expression.remove(i - 2);
+                    i -= 2;
+                }
+                catch (IndexOutOfBoundsException exception) {
+                    expression.set(i, evaluateExpression("0", expression.get(i), expression.get(i - 1)));
+                    expression.remove(i - 1);
+                    i -= 1;
+                }
             }
         }
         return String.join("", expression);
@@ -41,7 +48,7 @@ public class BasicMath {
     private ArrayList<String> convertToReversePolishNotation(@NotNull String expression){
         ArrayList<String> result = new ArrayList<>();
         Stack<String> stackOfOperands = new Stack<>();
-        for (String operandOrOperator : expression.split(" "))
+        for (String operandOrOperator : expression.strip().split(" "))
             // If operandOrOperator is number, adds it to the result array
             if (isOperand(operandOrOperator)) {
                 result.add(operandOrOperator);
