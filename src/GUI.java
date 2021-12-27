@@ -1,8 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class GUI implements ActionListener {
+    private final JButton[] arrayOfButtons;
+    private JTextField resultField;
 
     public GUI() {
         // Text field properties
@@ -11,7 +14,9 @@ public class GUI implements ActionListener {
         Font textFont = new Font("Dialog", Font.BOLD, 20);
         resultField.setFont(textFont);
         resultField.setEditable(false);
-        // Buttons
+        this.resultField = resultField;
+
+        // Buttons properties
         JButton buttonForOne = new JButton("1");
         JButton buttonForTwo = new JButton("2");
         JButton buttonForThree = new JButton("3");
@@ -22,21 +27,21 @@ public class GUI implements ActionListener {
         JButton buttonForEight = new JButton("8");
         JButton buttonForNine = new JButton("9");
         JButton buttonForZero = new JButton("0");
-        JButton buttonForPlus = new JButton("+");
-        JButton buttonForMinus = new JButton("—");
-        JButton buttonForDivide = new JButton("/");
-        JButton buttonForMultiply = new JButton("*");
-        JButton buttonForEquals = new JButton("=");
+        JButton buttonForPlus = new JButton(" + ");
+        JButton buttonForMinus = new JButton(" — ");
+        JButton buttonForDivide = new JButton(" / ");
+        JButton buttonForMultiply = new JButton(" * ");
+        JButton buttonForEquals = new JButton(" = ");
         JButton buttonForDelete = new JButton("DEL");
         JButton buttonForClear = new JButton("CLR");
         JButton buttonForDot = new JButton(".");
-        JButton buttonForPower = new JButton("PWR");
-        JButton buttonForLog = new JButton("Ln");
-        JButton buttonForLn = new JButton("Log");
-        JButton buttonForRoot = new JButton("√");
+        JButton buttonForPower = new JButton(" ^ ");
+        JButton buttonForLog = new JButton(" ln ");
+        JButton buttonForLn = new JButton(" log ");
+        JButton buttonForRoot = new JButton(" √ ");
         JButton buttonForPi = new JButton("π");
-        JButton buttonForLeftParenthesis = new JButton("(");
-        JButton buttonForRightParenthesis = new JButton(")");
+        JButton buttonForLeftParenthesis = new JButton(" ( ");
+        JButton buttonForRightParenthesis = new JButton(" ) ");
         JButton[] arrayOfButtons = {
                 buttonForPower, buttonForLeftParenthesis, buttonForRightParenthesis, buttonForDelete, buttonForClear,
                 buttonForLog, buttonForOne, buttonForTwo, buttonForThree, buttonForPlus,
@@ -44,15 +49,18 @@ public class GUI implements ActionListener {
                 buttonForRoot, buttonForSeven, buttonForEight, buttonForNine, buttonForDivide,
                 buttonForPi, buttonForZero, buttonForDot, buttonForEquals, buttonForMultiply
         };
+        this.arrayOfButtons = arrayOfButtons;
         applyActionListener(arrayOfButtons);
         applyFont(arrayOfButtons, textFont);
-//        JLabel resultOfCalculation = new JLabel("Result goes here");
 
+        // Panel properties
         JPanel panel = new JPanel();
         panel.setBounds(50, 100, 450, 500);
         //panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
         panel.setLayout(new GridLayout(5, 5, 10, 10));
         //panel.setBackground(Color.BLACK);
+
+        // Frame properties
         JFrame frame = new JFrame("Basic Calculator");
         frame.add(panel, BorderLayout.CENTER);
         frame.add(resultField);
@@ -66,9 +74,26 @@ public class GUI implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-
+    public void actionPerformed(ActionEvent event) {
+         for (JButton button : arrayOfButtons) {
+             if (button.getText().equals("=") && event.getSource() == button) {
+                 BasicMath calculator = new BasicMath();
+                 String result = calculator.calculateExpression(resultField.getText());
+                 resultField.setText(result);
+             }
+             else if (button.getText().equals("DEL") && event.getSource() == button) {
+                 resultField.setText(resultField.getText().substring(0, resultField.getText().length() - 1));
+             }
+             else if (button.getText().equals("CLR") && event.getSource() == button) {
+                 resultField.setText("");
+             }
+             else if (event.getSource() == button) {
+                 // Adds the value of the pressed button to the text field
+                 resultField.setText(resultField.getText().concat(String.valueOf(button.getText())));
+             }
+         }
     }
+
 
     private void applyFont(JButton[] arrayOfButtons, Font font) {
         for (JButton button : arrayOfButtons){
