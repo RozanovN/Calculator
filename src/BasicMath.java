@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+import java.util.regex.*;
 import java.util.Map;
 import static java.util.Map.entry;
 import java.util.ArrayList;
@@ -9,37 +11,33 @@ public class BasicMath {
     }
 
     public int calculation(String[] listOfOperations) {
+        return -1;
+    }
+
+    private ArrayList<Object> parseExpression(String expression) {
+        String[] tokensOfExpression = expression.split(" ");
 
     }
 
-    public static ArrayList<String> determineOperations(String userInput){
-        String[] arrayOfInput = userInput.split(" ");
-        if (arrayOfInput.length % 2 == 0) {
+    public ArrayList<String> determineOperations(@NotNull String userInput){
+        ArrayList<String> result = new ArrayList<>();
+        Pattern expression = Pattern.compile("\\(?(\\d+)(\\+|-|/|\\*)(\\d+)\\)?");
 
-        }
-    }
-
-    public static ArrayList<String> determineOrderOfOperation(ArrayList<String> listOfOperations) {
-        Map<Character, Integer> operationOrder = Map.ofEntries(
-                entry('(', 3),
-                entry('/', 2),
-                entry('*', 2),
-                entry('+', 1),
-                entry('-', 1)
-        );
-        ArrayList<String> result = new ArrayList<>(listOfOperations);
-        for (int i = 0; i < result.size() - 1; i++) {
-            for (int j = 0; j < result.size(); j++) {
-                if ((operationOrder.get(result.get(i).charAt(0)).compareTo(operationOrder.get(result.get(j).charAt(0))))
-                    < 0){
-                    String temp = result.get(i);
-                    result.set(i, result.get(j));
-                    result.set(j, temp);
-                }
-            }
-        }
-        // result.sort(Collections.reverseOrder());
-        // returns a sorted list of integers
         return result;
+    }
+
+    private int determineOrderOfOperation(String operatorOrOperand) {
+        Map<String, Integer> operationOrder = Map.ofEntries(
+                entry("^", 3),
+                entry("log", 3),
+                entry("ln", 3),
+                entry("√", 3),
+                entry("/", 2),
+                entry("*", 2),
+                entry("+", 1),
+                entry("-", 1)
+
+        );
+        return operationOrder.get(operatorOrOperand.strip());
     }
 }
