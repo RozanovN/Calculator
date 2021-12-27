@@ -3,6 +3,7 @@ import java.util.Map;
 import static java.util.Map.entry;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.lang.Math;
 
 public class BasicMath {
 
@@ -22,9 +23,17 @@ public class BasicMath {
     }
 
     private String evaluateExpression(String firstOperand, String operator, String secondOperand) {
-        int result;
-        switch ()
-
+        double result = switch (operator) {
+            case "+" -> Double.parseDouble(firstOperand) + Double.parseDouble(secondOperand);
+            case "-" -> Double.parseDouble(firstOperand) - Double.parseDouble(secondOperand);
+            case "/" -> Double.parseDouble(firstOperand) / Double.parseDouble(secondOperand);
+            case "*" -> Double.parseDouble(firstOperand) * Double.parseDouble(secondOperand);
+            case "^" -> Math.pow(Double.parseDouble(firstOperand), Double.parseDouble(secondOperand));
+            case "√" -> Math.pow(Double.parseDouble(firstOperand), 1 / Double.parseDouble(secondOperand));
+            case "log" -> Math.log(Double.parseDouble(secondOperand)) / Math.log(Double.parseDouble(firstOperand));
+            case "ln" -> Math.log(Double.parseDouble(secondOperand));
+            default -> 0;
+        };
         return String.valueOf(result);
     }
 
