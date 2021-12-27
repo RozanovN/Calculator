@@ -13,19 +13,26 @@ public class BasicMath {
         return -1;
     }
 
-    private String[] parseExpression(String expression) {
-        return expression.split(" ");
+
+
+
+    private void addElementsOfStackToArray(ArrayList<String> result, Stack<String> stackOfOperands) {
+        while (!stackOfOperands.isEmpty() && !stackOfOperands.peek().equals("(")) {
+            result.add(stackOfOperands.pop());
+        }
+        //Removes the opening parenthesis
+        stackOfOperands.pop();
     }
 
-    public ArrayList<Object> convertToReversePolishNotation(@NotNull String expression){
-        ArrayList<Object> result = new ArrayList<>();
-        Stack<String> stackOfOperands = new Stack<>();
-
-
-        return result;
+    private void addElementsOfStackToArray(ArrayList<String> result, Stack<String> stackOfOperands, String operator) {
+        while (!stackOfOperands.isEmpty() && getOrderValue(operator) <= getOrderValue(stackOfOperands.peek())) {
+            result.add(stackOfOperands.pop());
+        }
+        //Adds the new operator on top of the stack
+        stackOfOperands.push(operator);
     }
 
-    private boolean isDigit(String operandOrOperator) {
+    private boolean isOperand(String operandOrOperator) {
         try {
             Double.parseDouble(operandOrOperator);
             return true;
@@ -35,7 +42,7 @@ public class BasicMath {
         }
     }
 
-    private int determineOrderOfOperation(String operatorOrOperand) {
+    private int getOrderValue(String operator) {
         Map<String, Integer> operationOrder = Map.ofEntries(
                 entry("^", 3),
                 entry("log", 3),
@@ -47,6 +54,6 @@ public class BasicMath {
                 entry("-", 1)
 
         );
-        return operationOrder.get(operatorOrOperand.strip());
+        return operationOrder.get(operator.strip());
     }
 }
