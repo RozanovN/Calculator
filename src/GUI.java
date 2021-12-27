@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 
 public class GUI implements ActionListener {
     private final JButton[] arrayOfButtons;
@@ -28,7 +27,7 @@ public class GUI implements ActionListener {
         JButton buttonForNine = new JButton("9");
         JButton buttonForZero = new JButton("0");
         JButton buttonForPlus = new JButton(" + ");
-        JButton buttonForMinus = new JButton(" — ");
+        JButton buttonForMinus = new JButton(" - ");
         JButton buttonForDivide = new JButton(" / ");
         JButton buttonForMultiply = new JButton(" * ");
         JButton buttonForEquals = new JButton(" = ");
@@ -76,7 +75,7 @@ public class GUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
          for (JButton button : arrayOfButtons) {
-             if (button.getText().equals("=") && event.getSource() == button) {
+             if (button.getText().equals(" = ") && event.getSource() == button) {
                  BasicMath calculator = new BasicMath();
                  String result = calculator.calculateExpression(resultField.getText());
                  resultField.setText(result);
