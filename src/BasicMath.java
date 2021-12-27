@@ -1,9 +1,8 @@
 import org.jetbrains.annotations.NotNull;
-import java.util.regex.*;
 import java.util.Map;
 import static java.util.Map.entry;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Stack;
 
 public class BasicMath {
 
@@ -14,16 +13,26 @@ public class BasicMath {
         return -1;
     }
 
-    private ArrayList<Object> parseExpression(String expression) {
-        String[] tokensOfExpression = expression.split(" ");
-
+    private String[] parseExpression(String expression) {
+        return expression.split(" ");
     }
 
-    public ArrayList<String> determineOperations(@NotNull String userInput){
-        ArrayList<String> result = new ArrayList<>();
-        Pattern expression = Pattern.compile("\\(?(\\d+)(\\+|-|/|\\*)(\\d+)\\)?");
+    public ArrayList<Object> convertToReversePolishNotation(@NotNull String expression){
+        ArrayList<Object> result = new ArrayList<>();
+        Stack<String> stackOfOperands = new Stack<>();
+
 
         return result;
+    }
+
+    private boolean isDigit(String operandOrOperator) {
+        try {
+            Double.parseDouble(operandOrOperator);
+            return true;
+        }
+        catch (NumberFormatException exception) {
+            return false;
+        }
     }
 
     private int determineOrderOfOperation(String operatorOrOperand) {
