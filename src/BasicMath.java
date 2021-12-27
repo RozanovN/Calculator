@@ -9,11 +9,26 @@ public class BasicMath {
     public BasicMath() {
     }
 
-    public int calculation(String[] listOfOperations) {
-        return -1;
+    public String calculateExpression(ArrayList<String> expression) {
+        for (int i = 0; i < expression.size(); i++) {
+            if (!isOperand(expression.get(i))) {
+                expression.set(i, evaluateExpression(expression.get(i - 2), expression.get(i), expression.get(i - 1)));
+                expression.remove(i - 1);
+                expression.remove(i - 2);
+                i -= 2;
+            }
+        }
+        return String.join("", expression);
     }
 
-    public ArrayList<String> convertToReversePolishNotation(@NotNull String expression){
+    private String evaluateExpression(String firstOperand, String operator, String secondOperand) {
+        int result;
+        switch ()
+
+        return String.valueOf(result);
+    }
+
+    private ArrayList<String> convertToReversePolishNotation(@NotNull String expression){
         ArrayList<String> result = new ArrayList<>();
         Stack<String> stackOfOperands = new Stack<>();
         for (String operandOrOperator : expression.split(" "))
