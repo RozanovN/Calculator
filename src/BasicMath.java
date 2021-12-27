@@ -10,7 +10,8 @@ public class BasicMath {
     public BasicMath() {
     }
 
-    public String calculateExpression(ArrayList<String> expression) {
+    public String calculateExpression(String userInput) {
+        ArrayList<String> expression = convertToReversePolishNotation(userInput);
         for (int i = 0; i < expression.size(); i++) {
             if (!isOperand(expression.get(i))) {
                 expression.set(i, evaluateExpression(expression.get(i - 2), expression.get(i), expression.get(i - 1)));
@@ -63,8 +64,11 @@ public class BasicMath {
         while (!stackOfOperands.isEmpty() && !stackOfOperands.peek().equals("(")) {
             result.add(stackOfOperands.pop());
         }
-        //Removes the opening parenthesis
-        stackOfOperands.pop();
+        //Removes the opening parenthesis if there's any
+        if (!stackOfOperands.isEmpty()) {
+            stackOfOperands.pop();
+        }
+
     }
 
     private void addElementsOfStackToArray(ArrayList<String> result, Stack<String> stackOfOperands, String operator) {
