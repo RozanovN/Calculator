@@ -13,8 +13,27 @@ public class BasicMath {
         return -1;
     }
 
-
-
+    public ArrayList<String> convertToReversePolishNotation(@NotNull String expression){
+        ArrayList<String> result = new ArrayList<>();
+        Stack<String> stackOfOperands = new Stack<>();
+        for (String operandOrOperator : expression.split(" "))
+            // If operandOrOperator is number, adds it to the result array
+            if (isOperand(operandOrOperator)) {
+                result.add(operandOrOperator);
+            }
+            else if (operandOrOperator.strip().equals("(")) {
+                stackOfOperands.push(operandOrOperator.strip());
+            }
+            else if (operandOrOperator.strip().equals(")")) {
+                addElementsOfStackToArray(result, stackOfOperands);
+            }
+            else {
+                addElementsOfStackToArray(result, stackOfOperands, operandOrOperator);
+            }
+        // Adds the rest of the stack to the array
+        addElementsOfStackToArray(result, stackOfOperands);
+        return result;
+    }
 
     private void addElementsOfStackToArray(ArrayList<String> result, Stack<String> stackOfOperands) {
         while (!stackOfOperands.isEmpty() && !stackOfOperands.peek().equals("(")) {
