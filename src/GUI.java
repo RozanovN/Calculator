@@ -1,19 +1,32 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.Math;
 
 public class GUI implements ActionListener {
     private final JButton[] arrayOfButtons;
-    private JTextField resultField;
+    private final JTextField resultField;
+    private static JTextArea stepsField;
 
     public GUI() {
-        // Text field properties
+        // Font properties
+        Font textFont = new Font("Dialog", Font.BOLD, 20);
+
+        // Result text field properties
         JTextField resultField = new JTextField();
         resultField.setBounds(50, 25, 450, 50);
-        Font textFont = new Font("Dialog", Font.BOLD, 20);
+        resultField.setBackground(Color.white);
         resultField.setFont(textFont);
         resultField.setEditable(false);
         this.resultField = resultField;
+
+        // Result text field properties
+        JTextArea stepsField = new JTextArea();
+        stepsField.setBounds(550, 25, 350, 580);
+        stepsField.setBackground(Color.white);
+        stepsField.setFont(textFont);
+        stepsField.setEditable(false);
+        GUI.stepsField = stepsField;
 
         // Buttons properties
         JButton buttonForOne = new JButton("1");
@@ -40,7 +53,7 @@ public class GUI implements ActionListener {
         JButton buttonForRoot = new JButton(" √ ");
         JButton buttonForPi = new JButton("π");
         JButton buttonForLeftParenthesis = new JButton(" ( ");
-        JButton buttonForRightParenthesis = new JButton(" ) ");
+        JButton buttonForRightParenthesis = new JButton(" )");
         JButton[] arrayOfButtons = {
                 buttonForPower, buttonForLeftParenthesis, buttonForRightParenthesis, buttonForDelete, buttonForClear,
                 buttonForLog, buttonForOne, buttonForTwo, buttonForThree, buttonForPlus,
@@ -63,8 +76,9 @@ public class GUI implements ActionListener {
         JFrame frame = new JFrame("Basic Calculator");
         frame.add(panel, BorderLayout.CENTER);
         frame.add(resultField);
+        frame.add(stepsField);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(640, 720);
+        frame.setSize(940, 720);
         frame.setTitle("Calculator");
         frame.setLayout(null);
 //        frame.pack();
@@ -80,11 +94,15 @@ public class GUI implements ActionListener {
                  String result = calculator.calculateExpression(resultField.getText());
                  resultField.setText(result);
              }
+             else if (button.getText().equals("π") && event.getSource() == button) {
+                 resultField.setText(String.valueOf(Math.PI));
+             }
              else if (button.getText().equals("DEL") && event.getSource() == button) {
                  resultField.setText(resultField.getText().substring(0, resultField.getText().length() - 1));
              }
              else if (button.getText().equals("CLR") && event.getSource() == button) {
                  resultField.setText("");
+                 stepsField.setText("");
              }
              else if (event.getSource() == button) {
                  // Adds the value of the pressed button to the text field
@@ -93,6 +111,18 @@ public class GUI implements ActionListener {
          }
     }
 
+    public static void addSteps(String firstOperand, String operator, String secondOperand, String result) {
+        if (operator.equals("log")) {
+            stepsField.setText(
+                    stepsField.getText() + "log(" + firstOperand +", " + secondOperand +") =" + result + "\n"
+            );
+        }
+        else {
+            stepsField.setText(
+                    stepsField.getText() + firstOperand + " " + operator + " " + secondOperand + " = " + result + "\n"
+            );
+        }
+    }
 
     private void applyFont(JButton[] arrayOfButtons, Font font) {
         for (JButton button : arrayOfButtons){
