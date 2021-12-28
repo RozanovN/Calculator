@@ -11,45 +11,75 @@ public class BasicMath {
     }
 
     public String calculateExpression(String userInput) {
+        // Convert the math expression to an array using reverse Polish notation.
         ArrayList<String> expression = convertToReversePolishNotation(userInput);
+        // Traverse through the array
         for (int i = 0; i < expression.size(); i++) {
+            // If the array element is not an operand (number), evaluate expression.
             if (!isOperand(expression.get(i))) {
-                try {
+                // If there are 2 elements before the encountered operator, evaluate the expression with two operands.
+                if (i - 2 >= 0) {
                     expression.set(i, evaluateExpression(expression.get(i - 2), expression.get(i), expression.get(i - 1)));
                     expression.remove(i - 1);
                     expression.remove(i - 2);
                     i -= 2;
                 }
-                catch (IndexOutOfBoundsException exception) {
+                /*
+                    If there is only one operand before the encountered operator, evaluate the expression with one
+                    operand. Zero is a default value and used as an operand only in some cases like making number
+                    negative (-5 + 5).
+                */
+                else {
                     expression.set(i, evaluateExpression("0", expression.get(i), expression.get(i - 1)));
                     expression.remove(i - 1);
                     i -= 1;
                 }
             }
         }
+        // Return the converted result as a String.
         return String.join("", expression);
     }
 
     private String evaluateExpression(String firstOperand, String operator, String secondOperand) {
-        double result = switch (operator) {
-            case "+" -> Double.parseDouble(firstOperand) + Double.parseDouble(secondOperand);
-            case "-" -> Double.parseDouble(firstOperand) - Double.parseDouble(secondOperand);
-            case "/" -> Double.parseDouble(firstOperand) / Double.parseDouble(secondOperand);
-            case "*" -> Double.parseDouble(firstOperand) * Double.parseDouble(secondOperand);
-            case "^" -> Math.pow(Double.parseDouble(firstOperand), Double.parseDouble(secondOperand));
-            case "√" -> Math.pow(Double.parseDouble(firstOperand), 1 / Double.parseDouble(secondOperand));
-            case "log" -> Math.log(Double.parseDouble(secondOperand)) / Math.log(Double.parseDouble(firstOperand));
-            case "ln" -> Math.log(Double.parseDouble(secondOperand));
-            default -> 0;
+        double result;
+        switch (operator) {
+            // Evaluate expression based on the operator.
+            case "+":
+                result = Double.parseDouble(firstOperand) + Double.parseDouble(secondOperand);
+                break;
+            case "-":
+                result = Double.parseDouble(firstOperand) - Double.parseDouble(secondOperand);
+                break;
+            case "/":
+                result = Double.parseDouble(firstOperand) / Double.parseDouble(secondOperand);
+                break;
+            case "*":
+                result = Double.parseDouble(firstOperand) * Double.parseDouble(secondOperand);
+                break;
+            case "^":
+                result = Math.pow(Double.parseDouble(firstOperand), Double.parseDouble(secondOperand));
+                break;
+            case "√":
+                result = Math.sqrt(Double.parseDouble(secondOperand));
+                break;
+            case "log":
+                result = Math.log(Double.parseDouble(secondOperand)) / Math.log(Double.parseDouble(firstOperand));
+                break;
+            case "ln":
+                result = Math.log(Double.parseDouble(secondOperand));
+                break;
+            default:
+                result = 0;
         };
+
         return String.valueOf(result);
     }
 
     private ArrayList<String> convertToReversePolishNotation(@NotNull String expression){
         ArrayList<String> result = new ArrayList<>();
         Stack<String> stackOfOperands = new Stack<>();
-        for (String operandOrOperator : expression.strip().split(" "))
-            // If operandOrOperator is number, adds it to the result array
+        for (String operandOrOperator : expression.strip().split(" ")) // test (\\d)+ later
+            // If operandOrOperator is number, adds it to the result array.
             if (isOperand(operandOrOperator)) {
                 result.add(operandOrOperator);
             }
@@ -62,7 +92,7 @@ public class BasicMath {
             else {
                 addElementsOfStackToArray(result, stackOfOperands, operandOrOperator);
             }
-        // Adds the rest of the stack to the array
+        // Adds the rest of the stack to the array.
         addElementsOfStackToArray(result, stackOfOperands);
         return result;
     }
@@ -71,7 +101,7 @@ public class BasicMath {
         while (!stackOfOperands.isEmpty() && !stackOfOperands.peek().equals("(")) {
             result.add(stackOfOperands.pop());
         }
-        //Removes the opening parenthesis if there's any
+        // Removes the opening parenthesis if there's any.
         if (!stackOfOperands.isEmpty()) {
             stackOfOperands.pop();
         }
@@ -82,7 +112,7 @@ public class BasicMath {
         while (!stackOfOperands.isEmpty() && getOrderValue(operator) <= getOrderValue(stackOfOperands.peek())) {
             result.add(stackOfOperands.pop());
         }
-        //Adds the new operator on top of the stack
+        // Adds the new operator on top of the stack.
         stackOfOperands.push(operator);
     }
 
@@ -105,8 +135,8 @@ public class BasicMath {
                 entry("/", 2),
                 entry("*", 2),
                 entry("+", 1),
-                entry("-", 1)
-
+                entry("-", 1),
+                entry("(", -1)
         );
         return operationOrder.get(operator.strip());
     }
