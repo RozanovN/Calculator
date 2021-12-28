@@ -41,37 +41,19 @@ public class BasicMath {
     }
 
     private String evaluateExpression(String firstOperand, String operator, String secondOperand) {
-        double result;
-        switch (operator) {
+        double result = switch (operator) {
             // Evaluate expression based on the operator.
-            case "+":
-                result = Double.parseDouble(firstOperand) + Double.parseDouble(secondOperand);
-                break;
-            case "-":
-                result = Double.parseDouble(firstOperand) - Double.parseDouble(secondOperand);
-                break;
-            case "/":
-                result = Double.parseDouble(firstOperand) / Double.parseDouble(secondOperand);
-                break;
-            case "*":
-                result = Double.parseDouble(firstOperand) * Double.parseDouble(secondOperand);
-                break;
-            case "^":
-                result = Math.pow(Double.parseDouble(firstOperand), Double.parseDouble(secondOperand));
-                break;
-            case "√":
-                result = Math.sqrt(Double.parseDouble(secondOperand));
-                break;
-            case "log":
-                result = Math.log(Double.parseDouble(secondOperand)) / Math.log(Double.parseDouble(firstOperand));
-                break;
-            case "ln":
-                result = Math.log(Double.parseDouble(secondOperand));
-                break;
-            default:
-                result = 0;
+            case "+" -> Double.parseDouble(firstOperand) + Double.parseDouble(secondOperand);
+            case "-" -> Double.parseDouble(firstOperand) - Double.parseDouble(secondOperand);
+            case "/" -> Double.parseDouble(firstOperand) / Double.parseDouble(secondOperand);
+            case "*" -> Double.parseDouble(firstOperand) * Double.parseDouble(secondOperand);
+            case "^" -> Math.pow(Double.parseDouble(firstOperand), Double.parseDouble(secondOperand));
+            case "√" -> Math.sqrt(Double.parseDouble(secondOperand));
+            case "log" -> Math.log(Double.parseDouble(secondOperand)) / Math.log(Double.parseDouble(firstOperand));
+            case "ln" -> Math.log(Double.parseDouble(secondOperand));
+            default -> 0;
         };
-
+        GUI.addSteps(firstOperand, operator, secondOperand, String.valueOf(result));
         return String.valueOf(result);
     }
 
