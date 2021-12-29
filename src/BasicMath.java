@@ -49,7 +49,7 @@ public class BasicMath {
             case "*" -> Double.parseDouble(firstOperand) * Double.parseDouble(secondOperand);
             case "^" -> Math.pow(Double.parseDouble(firstOperand), Double.parseDouble(secondOperand));
             case "√" -> Math.sqrt(Double.parseDouble(secondOperand));
-            case "log" -> Math.log(Double.parseDouble(secondOperand)) / Math.log(Double.parseDouble(firstOperand));
+            case "log10" -> Math.log(10) / Math.log(Double.parseDouble(secondOperand));
             case "ln" -> Math.log(Double.parseDouble(secondOperand));
             default -> 0;
         };
