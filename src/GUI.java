@@ -49,7 +49,7 @@ public class GUI implements ActionListener {
         JButton buttonForDot = new JButton(".");
         JButton buttonForPower = new JButton(" ^ ");
         JButton buttonForLog = new JButton(" ln ");
-        JButton buttonForLn = new JButton(" log ");
+        JButton buttonForLn = new JButton(" log10 ");
         JButton buttonForRoot = new JButton(" √ ");
         JButton buttonForPi = new JButton("π");
         JButton buttonForLeftParenthesis = new JButton(" ( ");
@@ -112,9 +112,9 @@ public class GUI implements ActionListener {
     }
 
     public static void addSteps(String firstOperand, String operator, String secondOperand, String result) {
-        if (operator.equals("log")) {
+        if (operator.equals("log10")) {
             stepsField.setText(
-                    stepsField.getText() + "log(" + firstOperand +", " + secondOperand +") =" + result + "\n"
+                    stepsField.getText() + "log10(" + secondOperand +") = " + result + "\n"
             );
         }
         else {
