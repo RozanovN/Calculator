@@ -9,26 +9,26 @@ public class GUI implements ActionListener {
     private static JTextArea stepsField;
 
     public GUI() {
-        // Font properties
-        Font textFont = new Font("Dialog", Font.BOLD, 20);
+        // Font properties.
+        Font textFont = new Font("Dialog", Font.BOLD, 15);
 
-        // Result text field properties
+        // Result text field properties.
         JTextField resultField = new JTextField();
-        resultField.setBounds(50, 25, 450, 50);
+        resultField.setBounds(50, 25, 440, 50);
         resultField.setBackground(Color.white);
         resultField.setFont(textFont);
         resultField.setEditable(false);
         this.resultField = resultField;
 
-        // Result text field properties
+        // Result text field properties.
         JTextArea stepsField = new JTextArea();
-        stepsField.setBounds(550, 25, 350, 580);
+        stepsField.setBounds(550, 25, 150, 380);
         stepsField.setBackground(Color.white);
         stepsField.setFont(textFont);
         stepsField.setEditable(false);
         GUI.stepsField = stepsField;
 
-        // Buttons properties
+        // Buttons properties.
         JButton buttonForOne = new JButton("1");
         JButton buttonForTwo = new JButton("2");
         JButton buttonForThree = new JButton("3");
@@ -43,7 +43,7 @@ public class GUI implements ActionListener {
         JButton buttonForMinus = new JButton(" - ");
         JButton buttonForDivide = new JButton(" / ");
         JButton buttonForMultiply = new JButton(" * ");
-        JButton buttonForEquals = new JButton(" = ");
+        JButton buttonForEquals = new JButton("=");
         JButton buttonForDelete = new JButton("DEL");
         JButton buttonForClear = new JButton("CLR");
         JButton buttonForDot = new JButton(".");
@@ -52,7 +52,7 @@ public class GUI implements ActionListener {
         JButton buttonForLn = new JButton(" log10 ");
         JButton buttonForRoot = new JButton(" √ ");
         JButton buttonForPi = new JButton("π");
-        JButton buttonForLeftParenthesis = new JButton(" ( ");
+        JButton buttonForLeftParenthesis = new JButton("( ");
         JButton buttonForRightParenthesis = new JButton(" )");
         JButton[] arrayOfButtons = {
                 buttonForPower, buttonForLeftParenthesis, buttonForRightParenthesis, buttonForDelete, buttonForClear,
@@ -65,23 +65,20 @@ public class GUI implements ActionListener {
         applyActionListener(arrayOfButtons);
         applyFont(arrayOfButtons, textFont);
 
-        // Panel properties
+        // Panel properties.
         JPanel panel = new JPanel();
-        panel.setBounds(50, 100, 450, 500);
-        //panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
+        panel.setBounds(50, 100, 440, 300);
         panel.setLayout(new GridLayout(5, 5, 10, 10));
-        //panel.setBackground(Color.BLACK);
 
-        // Frame properties
+        // Frame properties.
         JFrame frame = new JFrame("Basic Calculator");
         frame.add(panel, BorderLayout.CENTER);
         frame.add(resultField);
         frame.add(stepsField);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(940, 720);
+        frame.setSize(740, 470);
         frame.setTitle("Calculator");
         frame.setLayout(null);
-//        frame.pack();
         frame.setVisible(true);
         addButtonsToPanel(arrayOfButtons, panel);
     }
@@ -89,32 +86,36 @@ public class GUI implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
          for (JButton button : arrayOfButtons) {
-             if (button.getText().equals(" = ") && event.getSource() == button) {
-                 BasicMath calculator = new BasicMath();
-                 String result = calculator.calculateExpression(resultField.getText());
+             // Calculate the expression.
+             if (button.getText().equals("=") && event.getSource() == button) {
+                 String result = BasicMath.calculateExpression(resultField.getText());
                  resultField.setText(result);
              }
+             // Display the pi.
              else if (button.getText().equals("π") && event.getSource() == button) {
-                 resultField.setText(String.valueOf(Math.PI));
+                 resultField.setText(resultField.getText().concat(String.valueOf(Math.PI)));
              }
+             // Delete the last character.
              else if (button.getText().equals("DEL") && event.getSource() == button) {
                  resultField.setText(resultField.getText().substring(0, resultField.getText().length() - 1));
              }
+             // Clear the result and steps text fields.
              else if (button.getText().equals("CLR") && event.getSource() == button) {
                  resultField.setText("");
                  stepsField.setText("");
              }
              else if (event.getSource() == button) {
-                 // Adds the value of the pressed button to the text field
+                 // Add the value of the pressed button to the result text field.
                  resultField.setText(resultField.getText().concat(String.valueOf(button.getText())));
              }
          }
     }
 
     public static void addSteps(String firstOperand, String operator, String secondOperand, String result) {
-        if (operator.equals("log10")) {
+        // Display the calculation step.
+        if (operator.equals("log10") || operator.equals("ln")) {
             stepsField.setText(
-                    stepsField.getText() + "log10(" + secondOperand +") = " + result + "\n"
+                    stepsField.getText() + operator + "(" + secondOperand +") = " + result + "\n"
             );
         }
         else {
@@ -125,6 +126,7 @@ public class GUI implements ActionListener {
     }
 
     private void applyFont(JButton[] arrayOfButtons, Font font) {
+        // Apply font to every button in the array.
         for (JButton button : arrayOfButtons){
             button.setFont(font);
             button.setFocusable(false);
@@ -132,12 +134,14 @@ public class GUI implements ActionListener {
     }
 
     private void applyActionListener(JButton[] arrayOfButtons) {
+        // Add action listener to every button in the array.
         for (JButton button : arrayOfButtons){
             button.addActionListener(this);
         }
     }
 
     private void addButtonsToPanel(JButton[] arrayOfButtons, JPanel panel) {
+        // Add every button in the array to the given panel.
         for (JButton button : arrayOfButtons){
             panel.add(button);
         }

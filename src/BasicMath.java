@@ -7,10 +7,7 @@ import java.lang.Math;
 
 public class BasicMath {
 
-    public BasicMath() {
-    }
-
-    public String calculateExpression(String userInput) {
+    public static String calculateExpression(String userInput) {
         // Convert the math expression to an array using reverse Polish notation.
         ArrayList<String> expression = convertToReversePolishNotation(userInput);
         // Traverse through the array
@@ -40,7 +37,7 @@ public class BasicMath {
         return String.join("", expression);
     }
 
-    private String evaluateExpression(String firstOperand, String operator, String secondOperand) {
+    private static String evaluateExpression(String firstOperand, String operator, String secondOperand) {
         double result = switch (operator) {
             // Evaluate expression based on the operator.
             case "+" -> Double.parseDouble(firstOperand) + Double.parseDouble(secondOperand);
@@ -53,62 +50,78 @@ public class BasicMath {
             case "ln" -> Math.log(Double.parseDouble(secondOperand));
             default -> 0;
         };
+        // Display the calculation on screen.
         GUI.addSteps(firstOperand, operator, secondOperand, String.valueOf(result));
+        // Return the result as a String.
         return String.valueOf(result);
     }
 
-    private ArrayList<String> convertToReversePolishNotation(@NotNull String expression){
+    private static ArrayList<String> convertToReversePolishNotation(@NotNull String expression){
         ArrayList<String> result = new ArrayList<>();
-        Stack<String> stackOfOperands = new Stack<>();
-        for (String operandOrOperator : expression.strip().split(" ")) // test (\\d)+ later
-            // If operandOrOperator is number, adds it to the result array.
+        Stack<String> stackOfOperators = new Stack<>();
+        for (String operandOrOperator : expression.strip().split(" "))
+            // If operandOrOperator is number, add it to the result array.
             if (isOperand(operandOrOperator)) {
                 result.add(operandOrOperator);
             }
-            else if (operandOrOperator.strip().equals("(")) {
-                stackOfOperands.push(operandOrOperator.strip());
+            // If operandOrOperator is an opening parenthesis, add it to the stack of operators.
+            else if (operandOrOperator.equals("(")) {
+                stackOfOperators.push(operandOrOperator);
             }
-            else if (operandOrOperator.strip().equals(")")) {
-                addElementsOfStackToArray(result, stackOfOperands);
+            // If operandOrOperator is a closing parenthesis, add the operators inside parentheses to the result array.
+            else if (operandOrOperator.equals(")")) {
+                addElementsOfStackToArray(result, stackOfOperators);
             }
+            /* If none of the above is true, move operators from the stack to the array and add the
+               new operator to the stack.
+            */
             else {
-                addElementsOfStackToArray(result, stackOfOperands, operandOrOperator);
+                addElementsOfStackToArray(result, stackOfOperators, operandOrOperator);
             }
-        // Adds the rest of the stack to the array.
-        addElementsOfStackToArray(result, stackOfOperands);
+        // Add the rest of the stack to the array.
+        addElementsOfStackToArray(result, stackOfOperators);
+        // Return the expression in postfix notation as an ArrayList of strings.
         return result;
     }
 
-    private void addElementsOfStackToArray(ArrayList<String> result, Stack<String> stackOfOperands) {
+    private static void addElementsOfStackToArray(ArrayList<String> result, Stack<String> stackOfOperands) {
+        // Move operators from the stack to the array until it finds the opening parenthesis or the stack gets empty.
         while (!stackOfOperands.isEmpty() && !stackOfOperands.peek().equals("(")) {
             result.add(stackOfOperands.pop());
         }
-        // Removes the opening parenthesis if there's any.
+        // If there's an opening parenthesis, remove it from the stack.
         if (!stackOfOperands.isEmpty()) {
             stackOfOperands.pop();
         }
 
     }
 
-    private void addElementsOfStackToArray(ArrayList<String> result, Stack<String> stackOfOperands, String operator) {
+    private static void addElementsOfStackToArray(ArrayList<String> result, Stack<String> stackOfOperands,
+                                                  String operator) {
+        /* Move operators from the stack to the array while the given operator has a lower priority of operation and
+           the stack is not fully empty.
+         */
         while (!stackOfOperands.isEmpty() && getOrderValue(operator) <= getOrderValue(stackOfOperands.peek())) {
             result.add(stackOfOperands.pop());
         }
-        // Adds the new operator on top of the stack.
+        // Add the new operator on top of the stack.
         stackOfOperands.push(operator);
     }
 
-    private boolean isOperand(String operandOrOperator) {
+    private static boolean isOperand(String operandOrOperator) {
+        // If string is a number, return true
         try {
             Double.parseDouble(operandOrOperator);
             return true;
         }
+        // else return false
         catch (NumberFormatException exception) {
             return false;
         }
     }
 
-    private int getOrderValue(String operator) {
+    private static int getOrderValue(String operator) {
+        // return the priority of operator
         Map<String, Integer> operationOrder = Map.ofEntries(
                 entry("^", 3),
                 entry("log", 3),
