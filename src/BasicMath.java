@@ -3,12 +3,21 @@ import java.util.Map;
 import static java.util.Map.entry;
 import java.util.ArrayList;
 import java.util.Stack;
-import java.lang.Math;
 
+/**
+ * BasicMath represents logic for calculating basic math expressions.
+ *
+ * @author Nikolay Rozanov
+ * @version 2022
+ */
 public class BasicMath {
+    private final String[] BASIC_MATH_BUTTONS = {
+            " ln ", "( ", " )", "DEL", "CLR", " log10 ", "1", "2", "3", " + ", " ln ", "4", "5", "6", " - ", " √ ",
+            "7", "8", "9", " / ", "π", "0", ".", "=", " * "
+    };
 
     public static String calculateExpression(String userInput) {
-        // Convert the math expression to an array using reverse Polish notation.
+        // Convert the math expression to an array using the reverse Polish notation.
         ArrayList<String> expression = convertToReversePolishNotation(userInput);
         // Traverse through the array
         for (int i = 0; i < expression.size(); i++) {
@@ -16,7 +25,8 @@ public class BasicMath {
             if (!isOperand(expression.get(i))) {
                 // If there are 2 elements before the encountered operator, evaluate the expression with two operands.
                 if (i - 2 >= 0) {
-                    expression.set(i, evaluateExpression(expression.get(i - 2), expression.get(i), expression.get(i - 1)));
+                    expression.set(i, evaluateExpression(expression.get(i - 2), expression.get(i),
+                            expression.get(i - 1)));
                     expression.remove(i - 1);
                     expression.remove(i - 2);
                     i -= 2;
@@ -113,8 +123,7 @@ public class BasicMath {
         try {
             Double.parseDouble(operandOrOperator);
             return true;
-        }
-        // else return false
+        }// else return false
         catch (NumberFormatException exception) {
             return false;
         }

@@ -12,6 +12,7 @@ public class GUI implements ActionListener {
     private final JButton[] arrayOfButtons;
     private final JTextField resultField;
     private static JTextArea stepsField;
+    private final int FONT_SIZE = 15;
 
     /**
      * Constructs a GUI interface.
@@ -19,7 +20,7 @@ public class GUI implements ActionListener {
      */
     public GUI() {
         // Font properties.
-        Font textFont = new Font("Dialog", Font.BOLD, 15);
+        final Font textFont = new Font("Dialog", Font.BOLD, FONT_SIZE);
 
         // Result text field properties.
         JTextField resultField = new JTextField();
@@ -31,7 +32,7 @@ public class GUI implements ActionListener {
 
         // Result text field properties.
         JTextArea stepsField = new JTextArea();
-        stepsField.setBounds(550, 25, 150, 380);
+        stepsField.setBounds(530, 25, 150, 380);
         stepsField.setBackground(Color.white);
         stepsField.setFont(textFont);
         stepsField.setEditable(false);
