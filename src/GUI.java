@@ -1,13 +1,22 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.lang.Math;
 
+/**
+ * GUI represents the GUI interface of a calculator.
+ *
+ * @author Nikolay Rozanov
+ * @version 2022
+ */
 public class GUI implements ActionListener {
     private final JButton[] arrayOfButtons;
     private final JTextField resultField;
     private static JTextArea stepsField;
 
+    /**
+     * Constructs a GUI interface.
+     *
+     */
     public GUI() {
         // Font properties.
         Font textFont = new Font("Dialog", Font.BOLD, 15);
