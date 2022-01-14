@@ -9,7 +9,7 @@ public final class Main {
     private Main() {
     }
     /**
-     * Initiates GUI of a calculator.
+     * Drives the application.
      *
      * @param args command line arguments (unused)
      */
