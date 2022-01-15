@@ -1,4 +1,3 @@
-import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import static java.util.Map.entry;
 import java.util.ArrayList;
@@ -66,7 +65,7 @@ public class BasicMath {
         return String.valueOf(result);
     }
 
-    private static ArrayList<String> convertToReversePolishNotation(@NotNull String expression){
+    private static ArrayList<String> convertToReversePolishNotation(String expression){
         ArrayList<String> result = new ArrayList<>();
         Stack<String> stackOfOperators = new Stack<>();
         for (String operandOrOperator : expression.strip().split(" "))
