@@ -9,11 +9,15 @@ import java.util.Stack;
  * @author Nikolay Rozanov
  * @version 2022
  */
-public class BasicMath {
-    private final String[] BASIC_MATH_BUTTONS = {
-            " ln ", "( ", " )", "DEL", "CLR", " log10 ", "1", "2", "3", " + ", " ln ", "4", "5", "6", " - ", " √ ",
-            "7", "8", "9", " / ", "π", "0", ".", "=", " * "
-    };
+public class BasicMath extends Calculator {
+
+    public BasicMath() {
+        String[] buttonValues = {
+                " ln ", "( ", " )", "DEL", "CLR", " log10 ", "1", "2", "3", " + ", " ln ", "4", "5", "6", " - ", " √ ",
+                "7", "8", "9", " / ", "π", "0", ".", "=", " * "
+        };
+        super.setButtonValues(buttonValues);
+    }
 
     public static String calculateExpression(String userInput) {
         // Convert the math expression to an array using the reverse Polish notation.

@@ -14,6 +14,6 @@ public final class Main {
      * @param args command line arguments (unused)
      */
     public static void main(final String[] args) {
-        GUI calculator = new GUI();
+        GUI calculator = new GUI("");
     }
 }

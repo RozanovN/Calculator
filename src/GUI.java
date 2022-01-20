@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
  * GUI represents the GUI interface of a calculator.
@@ -9,24 +10,30 @@ import java.awt.event.*;
  * @version 2022
  */
 public class GUI implements ActionListener {
-    private final JButton[] arrayOfButtons;
-    private final JTextField resultField;
     private static JTextArea stepsField;
-    private final int FONT_SIZE = 15;
+    private final ArrayList<JButton> arrayOfButtons;
+    private final JTextField resultField;
+    final Font TEXT_FONT;
 
     /**
      * Constructs a GUI interface.
      *
      */
-    public GUI() {
+    public GUI(final String calculatorType) {
+        //Create a calculator based on calculatorType, but it is unused for now.
+//        if (calculatorType.equals("BasicMath")) {
+//            this.calculator = new BasicMath();
+//        }
+        Calculator calculator = new BasicMath();
+
         // Font properties.
-        final Font textFont = new Font("Dialog", Font.BOLD, FONT_SIZE);
+        this.TEXT_FONT = new Font("Dialog", Font.BOLD, 15);
 
         // Result text field properties.
         JTextField resultField = new JTextField();
         resultField.setBounds(50, 25, 440, 50);
         resultField.setBackground(Color.white);
-        resultField.setFont(textFont);
+        resultField.setFont(TEXT_FONT);
         resultField.setEditable(false);
         this.resultField = resultField;
 
@@ -34,46 +41,12 @@ public class GUI implements ActionListener {
         JTextArea stepsField = new JTextArea();
         stepsField.setBounds(530, 25, 150, 380);
         stepsField.setBackground(Color.white);
-        stepsField.setFont(textFont);
+        stepsField.setFont(TEXT_FONT);
         stepsField.setEditable(false);
         GUI.stepsField = stepsField;
 
-        // Buttons properties.
-        JButton buttonForOne = new JButton("1");
-        JButton buttonForTwo = new JButton("2");
-        JButton buttonForThree = new JButton("3");
-        JButton buttonForFour = new JButton("4");
-        JButton buttonForFive = new JButton("5");
-        JButton buttonForSix = new JButton("6");
-        JButton buttonForSeven = new JButton("7");
-        JButton buttonForEight = new JButton("8");
-        JButton buttonForNine = new JButton("9");
-        JButton buttonForZero = new JButton("0");
-        JButton buttonForPlus = new JButton(" + ");
-        JButton buttonForMinus = new JButton(" - ");
-        JButton buttonForDivide = new JButton(" / ");
-        JButton buttonForMultiply = new JButton(" * ");
-        JButton buttonForEquals = new JButton("=");
-        JButton buttonForDelete = new JButton("DEL");
-        JButton buttonForClear = new JButton("CLR");
-        JButton buttonForDot = new JButton(".");
-        JButton buttonForPower = new JButton(" ^ ");
-        JButton buttonForLog = new JButton(" ln ");
-        JButton buttonForLn = new JButton(" log10 ");
-        JButton buttonForRoot = new JButton(" √ ");
-        JButton buttonForPi = new JButton("π");
-        JButton buttonForLeftParenthesis = new JButton("( ");
-        JButton buttonForRightParenthesis = new JButton(" )");
-        JButton[] arrayOfButtons = {
-                buttonForPower, buttonForLeftParenthesis, buttonForRightParenthesis, buttonForDelete, buttonForClear,
-                buttonForLog, buttonForOne, buttonForTwo, buttonForThree, buttonForPlus,
-                buttonForLn, buttonForFour, buttonForFive, buttonForSix, buttonForMinus,
-                buttonForRoot, buttonForSeven, buttonForEight, buttonForNine, buttonForDivide,
-                buttonForPi, buttonForZero, buttonForDot, buttonForEquals, buttonForMultiply
-        };
-        this.arrayOfButtons = arrayOfButtons;
-        applyActionListener(arrayOfButtons);
-        applyFont(arrayOfButtons, textFont);
+        // Buttons of the GUI.
+        this.arrayOfButtons = createArrayOfButtons(calculator.getButtonValues());
 
         // Panel properties.
         JPanel panel = new JPanel();
@@ -127,32 +100,38 @@ public class GUI implements ActionListener {
             stepsField.setText(
                     stepsField.getText() + operator + "(" + secondOperand +") = " + result + "\n"
             );
-        }
-        else {
+        } else {
             stepsField.setText(
                     stepsField.getText() + firstOperand + " " + operator + " " + secondOperand + " = " + result + "\n"
             );
         }
     }
 
-    private void applyFont(JButton[] arrayOfButtons, Font font) {
-        // Apply font to every button in the array.
-        for (JButton button : arrayOfButtons){
-            button.setFont(font);
-            button.setFocusable(false);
+    private ArrayList<JButton> createArrayOfButtons(final String[] buttonsValues) {
+        ArrayList<JButton> arrayOfButtons = new ArrayList<>();
+        for (String value : buttonsValues) {
+            JButton newButton = new JButton(value);
+            applyFont(newButton, TEXT_FONT);
+            applyActionListener(newButton);
+            arrayOfButtons.add(newButton);
         }
+        return arrayOfButtons;
     }
 
-    private void applyActionListener(JButton[] arrayOfButtons) {
-        // Add action listener to every button in the array.
-        for (JButton button : arrayOfButtons){
-            button.addActionListener(this);
-        }
+    private void applyFont(JButton button, Font font) {
+        // Apply font to a button.
+        button.setFont(font);
+        button.setFocusable(false);
     }
 
-    private void addButtonsToPanel(JButton[] arrayOfButtons, JPanel panel) {
+    private void applyActionListener(JButton button) {
+        // Add action listener to a button.
+        button.addActionListener(this);
+    }
+
+    private void addButtonsToPanel(ArrayList<JButton> arrayOfButtons, JPanel panel) {
         // Add every button in the array to the given panel.
-        for (JButton button : arrayOfButtons){
+        for (JButton button : arrayOfButtons) {
             panel.add(button);
         }
     }
