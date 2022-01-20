@@ -1,6 +1,14 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 /**
@@ -13,18 +21,20 @@ public class GUI implements ActionListener {
     private static JTextArea stepsField;
     private final ArrayList<JButton> arrayOfButtons;
     private final JTextField resultField;
-    final Font TEXT_FONT;
+    private final Font TEXT_FONT;
+    private final Calculator calculator;
 
     /**
      * Constructs a GUI interface.
      *
+     * @param calculatorType unused for now
      */
     public GUI(final String calculatorType) {
         //Create a calculator based on calculatorType, but it is unused for now.
-//        if (calculatorType.equals("BasicMath")) {
-//            this.calculator = new BasicMath();
-//        }
-        Calculator calculator = new BasicMath();
+        //        if (calculatorType.equals("BasicMath")) {
+        //            this.calculator = new BasicMath();
+        //        }
+        this.calculator = new BasicMath();
 
         // Font properties.
         this.TEXT_FONT = new Font("Dialog", Font.BOLD, 15);
@@ -66,8 +76,14 @@ public class GUI implements ActionListener {
         addButtonsToPanel(arrayOfButtons, panel);
     }
 
+
+    /**
+     *  * Responds to the clicked button and invokes different calculator function based on the given input.
+     *
+     * @param event an ActionEvent
+     */
     @Override
-    public void actionPerformed(ActionEvent event) {
+    public void actionPerformed(final ActionEvent event) {
          for (JButton button : arrayOfButtons) {
              // Calculate the expression.
              if (button.getText().equals("=") && event.getSource() == button) {
@@ -94,11 +110,20 @@ public class GUI implements ActionListener {
          }
     }
 
-    public static void addSteps(String firstOperand, String operator, String secondOperand, String result) {
+    /**
+     * Adds the calculation steps to the stepsField for the user to see.
+     *
+     * @param firstOperand a String that represents a numeric value
+     * @param operator a String
+     * @param secondOperand a String that represents a numeric value
+     * @param result a String that represents a numeric value
+     */
+    public static void addSteps(final String firstOperand, final String operator, final String secondOperand,
+                                final String result) {
         // Display the calculation step.
         if (operator.equals("log10") || operator.equals("ln")) {
             stepsField.setText(
-                    stepsField.getText() + operator + "(" + secondOperand +") = " + result + "\n"
+                    stepsField.getText() + operator + "(" + secondOperand + ") = " + result + "\n"
             );
         } else {
             stepsField.setText(
@@ -111,25 +136,25 @@ public class GUI implements ActionListener {
         ArrayList<JButton> arrayOfButtons = new ArrayList<>();
         for (String value : buttonsValues) {
             JButton newButton = new JButton(value);
-            applyFont(newButton, TEXT_FONT);
+            applyFont(newButton);
             applyActionListener(newButton);
             arrayOfButtons.add(newButton);
         }
         return arrayOfButtons;
     }
 
-    private void applyFont(JButton button, Font font) {
+    private void applyFont(final JButton button) {
         // Apply font to a button.
-        button.setFont(font);
+        button.setFont(TEXT_FONT);
         button.setFocusable(false);
     }
 
-    private void applyActionListener(JButton button) {
+    private void applyActionListener(final JButton button) {
         // Add action listener to a button.
         button.addActionListener(this);
     }
 
-    private void addButtonsToPanel(ArrayList<JButton> arrayOfButtons, JPanel panel) {
+    private void addButtonsToPanel(final ArrayList<JButton> arrayOfButtons, final JPanel panel) {
         // Add every button in the array to the given panel.
         for (JButton button : arrayOfButtons) {
             panel.add(button);

@@ -11,6 +11,10 @@ import java.util.Stack;
  */
 public class BasicMath extends Calculator {
 
+    /**
+     * Constructs a basic mathematical calculator.
+     *
+     */
     public BasicMath() {
         String[] buttonValues = {
                 " ln ", "( ", " )", "DEL", "CLR", " log10 ", "1", "2", "3", " + ", " ln ", "4", "5", "6", " - ", " √ ",
@@ -19,7 +23,13 @@ public class BasicMath extends Calculator {
         super.setButtonValues(buttonValues);
     }
 
-    public static String calculateExpression(String userInput) {
+    /**
+     * Calculates expression.
+     *
+     * @param userInput a String that represents the expression given by the user
+     * @return the result of expression as a String
+     */
+    public static String calculateExpression(final String userInput) {
         // Convert the math expression to an array using the reverse Polish notation.
         ArrayList<String> expression = convertToReversePolishNotation(userInput);
         // Traverse through the array
@@ -50,7 +60,8 @@ public class BasicMath extends Calculator {
         return String.join("", expression);
     }
 
-    private static String evaluateExpression(String firstOperand, String operator, String secondOperand) {
+    private static String evaluateExpression(final String firstOperand, final String operator,
+                                             final String secondOperand) {
         double result = switch (operator) {
             // Evaluate expression based on the operator.
             case "+" -> Double.parseDouble(firstOperand) + Double.parseDouble(secondOperand);
@@ -69,7 +80,7 @@ public class BasicMath extends Calculator {
         return String.valueOf(result);
     }
 
-    private static ArrayList<String> convertToReversePolishNotation(String expression){
+    private static ArrayList<String> convertToReversePolishNotation(final String expression) {
         ArrayList<String> result = new ArrayList<>();
         Stack<String> stackOfOperators = new Stack<>();
         for (String operandOrOperator : expression.strip().split(" "))
@@ -97,7 +108,7 @@ public class BasicMath extends Calculator {
         return result;
     }
 
-    private static void addElementsOfStackToArray(ArrayList<String> result, Stack<String> stackOfOperands) {
+    private static void addElementsOfStackToArray(final ArrayList<String> result, final Stack<String> stackOfOperands) {
         // Move operators from the stack to the array until it finds the opening parenthesis or the stack gets empty.
         while (!stackOfOperands.isEmpty() && !stackOfOperands.peek().equals("(")) {
             result.add(stackOfOperands.pop());
@@ -109,8 +120,8 @@ public class BasicMath extends Calculator {
 
     }
 
-    private static void addElementsOfStackToArray(ArrayList<String> result, Stack<String> stackOfOperands,
-                                                  String operator) {
+    private static void addElementsOfStackToArray(final ArrayList<String> result, final Stack<String> stackOfOperands,
+                                                  final String operator) {
         /* Move operators from the stack to the array while the given operator has a lower priority of operation and
            the stack is not fully empty.
          */
@@ -121,18 +132,18 @@ public class BasicMath extends Calculator {
         stackOfOperands.push(operator);
     }
 
-    private static boolean isOperand(String operandOrOperator) {
+    private static boolean isOperand(final String operandOrOperator) {
         // If string is a number, return true
         try {
             Double.parseDouble(operandOrOperator);
             return true;
-        }// else return false
+        } // else return false
         catch (NumberFormatException exception) {
             return false;
         }
     }
 
-    private static int getOrderValue(String operator) {
+    private static int getOrderValue(final String operator) {
         // return the priority of operator
         Map<String, Integer> operationOrder = Map.ofEntries(
                 entry("^", 3),
