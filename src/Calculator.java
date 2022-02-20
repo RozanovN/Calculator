@@ -4,23 +4,20 @@
  * @author Nikolay Rozanov
  * @version 2022
  */
-public class Calculator {
-    private String[] BUTTON_VALUES;
+public interface Calculator {
 
     /**
-     * Returns the value of BUTTON_VALUES.
+     * Calculates expression.
      *
+     * @param userInput a String that represents the expression given by the user
+     * @return the result of expression as a String
      */
-    public String[] getButtonValues() {
-        return BUTTON_VALUES;
-    }
+    String calculateExpression(String userInput);
 
     /**
-     * Sets the value of BUTTON_VALUES.
+     * Gets button values.
      *
-     * @param buttonValues a String array of values
+     * @return an array of strings representing button values
      */
-    public void setButtonValues(final String[] buttonValues) {
-        this.BUTTON_VALUES = buttonValues;
-    }
+    String[] getButtonValues();
 }

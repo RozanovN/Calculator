@@ -9,18 +9,28 @@ import java.util.Stack;
  * @author Nikolay Rozanov
  * @version 2022
  */
-public class BasicMath extends Calculator {
+public class BasicMath implements Calculator {
+    private final String[] buttonValues;
 
     /**
      * Constructs a basic mathematical calculator.
      *
      */
     public BasicMath() {
-        String[] buttonValues = {
-                " ln ", "( ", " )", "DEL", "CLR", " log10 ", "1", "2", "3", " + ", " ln ", "4", "5", "6", " - ", " √ ",
-                "7", "8", "9", " / ", "π", "0", ".", "=", " * "
+        this.buttonValues = new String[]
+            {
+            " ln ", "( ", " )", "DEL", "CLR", " log10 ", "1", "2", "3", " + ", " ln ", "4", "5", "6", " - ", " √ ",
+            "7", "8", "9", " / ", "π", "0", ".", "=", " * "
         };
-        super.setButtonValues(buttonValues);
+    }
+
+    /**
+     * Gets button values.
+     *
+     * @return an array of strings representing button values
+     */
+    public String[] getButtonValues() {
+        return buttonValues;
     }
 
     /**
@@ -29,7 +39,8 @@ public class BasicMath extends Calculator {
      * @param userInput a String that represents the expression given by the user
      * @return the result of expression as a String
      */
-    public static String calculateExpression(final String userInput) {
+    @Override
+    public String calculateExpression(final String userInput) {
         // Convert the math expression to an array using the reverse Polish notation.
         ArrayList<String> expression = convertToReversePolishNotation(userInput);
         // Traverse through the array
@@ -60,7 +71,7 @@ public class BasicMath extends Calculator {
         return String.join("", expression);
     }
 
-    private static String evaluateExpression(final String firstOperand, final String operator,
+    private String evaluateExpression(final String firstOperand, final String operator,
                                              final String secondOperand) {
         double result = switch (operator) {
             // Evaluate expression based on the operator.
@@ -80,7 +91,7 @@ public class BasicMath extends Calculator {
         return String.valueOf(result);
     }
 
-    private static ArrayList<String> convertToReversePolishNotation(final String expression) {
+    private ArrayList<String> convertToReversePolishNotation(final String expression) {
         ArrayList<String> result = new ArrayList<>();
         Stack<String> stackOfOperators = new Stack<>();
         for (String operandOrOperator : expression.strip().split(" "))
@@ -108,7 +119,7 @@ public class BasicMath extends Calculator {
         return result;
     }
 
-    private static void addElementsOfStackToArray(final ArrayList<String> result, final Stack<String> stackOfOperands) {
+    private void addElementsOfStackToArray(final ArrayList<String> result, final Stack<String> stackOfOperands) {
         // Move operators from the stack to the array until it finds the opening parenthesis or the stack gets empty.
         while (!stackOfOperands.isEmpty() && !stackOfOperands.peek().equals("(")) {
             result.add(stackOfOperands.pop());
@@ -120,7 +131,7 @@ public class BasicMath extends Calculator {
 
     }
 
-    private static void addElementsOfStackToArray(final ArrayList<String> result, final Stack<String> stackOfOperands,
+    private void addElementsOfStackToArray(final ArrayList<String> result, final Stack<String> stackOfOperands,
                                                   final String operator) {
         /* Move operators from the stack to the array while the given operator has a lower priority of operation and
            the stack is not fully empty.
@@ -132,7 +143,7 @@ public class BasicMath extends Calculator {
         stackOfOperands.push(operator);
     }
 
-    private static boolean isOperand(final String operandOrOperator) {
+    private boolean isOperand(final String operandOrOperator) {
         // If string is a number, return true
         try {
             Double.parseDouble(operandOrOperator);
@@ -143,7 +154,7 @@ public class BasicMath extends Calculator {
         }
     }
 
-    private static int getOrderValue(final String operator) {
+    private int getOrderValue(final String operator) {
         // return the priority of operator
         Map<String, Integer> operationOrder = Map.ofEntries(
                 entry("^", 3),

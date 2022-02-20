@@ -30,11 +30,9 @@ public class GUI implements ActionListener {
      * @param calculatorType unused for now
      */
     public GUI(final String calculatorType) {
-        //Create a calculator based on calculatorType, but it is unused for now.
-        //        if (calculatorType.equals("BasicMath")) {
-        //            this.calculator = new BasicMath();
-        //        }
-        this.calculator = new BasicMath();
+        this.calculator = switch (calculatorType) {
+            default -> new BasicMath();
+        };
 
         // Font properties.
         this.TEXT_FONT = new Font("Dialog", Font.BOLD, 15);
@@ -53,7 +51,7 @@ public class GUI implements ActionListener {
         stepsField.setBackground(Color.white);
         stepsField.setFont(TEXT_FONT);
         stepsField.setEditable(false);
-        GUI.stepsField = stepsField;
+        this.stepsField = stepsField;
 
         // Buttons of the GUI.
         this.arrayOfButtons = createArrayOfButtons(calculator.getButtonValues());
@@ -87,7 +85,7 @@ public class GUI implements ActionListener {
          for (JButton button : arrayOfButtons) {
              // Calculate the expression.
              if (button.getText().equals("=") && event.getSource() == button) {
-                 String result = BasicMath.calculateExpression(resultField.getText());
+                 String result = calculator.calculateExpression(resultField.getText());
                  resultField.setText(result);
              }
              // Display the pi.
