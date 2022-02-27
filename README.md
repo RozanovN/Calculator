@@ -22,6 +22,8 @@
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -85,19 +87,12 @@ How to run it from the CLI:
   java Main.java
   ```  
 
-<!-- USAGE EXAMPLES -->
-## Usage
-
-
-
-
-
 <!-- ROADMAP -->
 ## Roadmap
 
 - [x] Add GUI class
 - [x] Add BasicMath class
-- [ ] Add documentation
+- [x] Add documentation
 - [ ] Add Calculus class
 - [ ] Add LinearAlgebra class
 
